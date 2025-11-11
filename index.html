@@ -106,10 +106,8 @@ body {
 
 
 <h1 style="font-size: 18px; margin-bottom: 10px;">
-    شوف  🎯 Match it
+  🎯 Match it / شوف تشوف
 </h1>
-
-<h1>Find the Matching Symbol!</h1>
 
 <div class="cards">
   <div class="card" id="card1"></div>
@@ -144,6 +142,7 @@ function startGame() {
     .filter(div => div.dataset.text === commonSymbol.text);
 }
 
+// old function
 function generateCards() {
   const card1 = [];
   const card2 = [];
@@ -168,6 +167,45 @@ function generateCards() {
 
   return [card1, card2, common];
 }
+
+//new function
+function generateCards() {
+  const card1 = [];
+  const card2 = [];
+
+  // Pick the common symbol
+  const common = allSymbols[Math.floor(Math.random() * allSymbols.length)];
+
+  // Make a pool excluding the common symbol
+  const pool = allSymbols.filter(s => s.text !== common.text);
+
+  // Pick 4 unique symbols for card1
+  while (card1.length < 4) {
+    const s = pool[Math.floor(Math.random() * pool.length)];
+    if (!card1.some(item => item.text === s.text)) card1.push(s);
+  }
+
+  // Pick 4 unique symbols for card2, ensuring they are not in card1
+  while (card2.length < 4) {
+    const s = pool[Math.floor(Math.random() * pool.length)];
+    if (!card2.some(item => item.text === s.text) && !card1.some(item => item.text === s.text)) {
+      card2.push(s);
+    }
+  }
+
+  // Add the common symbol to both cards
+  card1.push(common);
+  card2.push(common);
+
+  // Shuffle cards
+  card1.sort(() => Math.random() - 0.5);
+  card2.sort(() => Math.random() - 0.5);
+
+  return [card1, card2, common];
+}
+
+
+
 
 function renderCard(cardElement, cardData) {
   cardElement.innerHTML = '';
