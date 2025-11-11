@@ -61,49 +61,52 @@ h1 {
   background: #ffeb3b;
   transform: scale(1.2);
 }
+
+/* Mobile layout fix */
 @media (max-width: 600px) {
+  .cards {
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+  }
   .card {
-    width: 140px;
-    height: 140px;
+    width: 160px;
+    height: 160px;
+    grid-template-columns: repeat(2, 1fr);
   }
   .symbol {
-    height: 50px;
-    width: 50px;
+    width: 45px;
+    height: 45px;
   }
 }
 
-
 /* Home button styling */
-    .home-button {
-      display: inline-block;
-      background: #60a5fa;
-      color: #fff;
-      padding: 10px 20px;
-      border-radius: 20px;
-      text-decoration: none;
-      font-weight: 500;
-      margin-bottom: 15px;
-      transition: transform 0.2s, background 0.2s;
-    }
+.home-button {
+  display: inline-block;
+  background: #60a5fa;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 20px;
+  text-decoration: none;
+  font-weight: 500;
+  margin-bottom: 15px;
+  transition: transform 0.2s, background 0.2s;
+}
 
 /* Center the button */
 body {
   text-align: center;
 }
 
-    .home-button:hover { 
-      transform: scale(1.05);
-      background: #3b82f6;
-    }
-
-
-
+.home-button:hover { 
+  transform: scale(1.05);
+  background: #3b82f6;
+}
 </style>
 </head>
 <body>
 
 <a href="https://feynfou.github.io/DarijaToons-Hub/" class="home-button">   🏠 Home / الرئيسية  </a>
-
 
 <h1 style="font-size: 18px; margin-bottom: 10px;">
   🎯 Match it / شوف تشوف
@@ -142,33 +145,7 @@ function startGame() {
     .filter(div => div.dataset.text === commonSymbol.text);
 }
 
-// old function
-function generateCards() {
-  const card1 = [];
-  const card2 = [];
-
-  const common = allSymbols[Math.floor(Math.random() * allSymbols.length)];
-
-  while (card1.length < 4) {
-    const s = allSymbols[Math.floor(Math.random() * allSymbols.length)];
-    if (!card1.some(item => item.text === s.text) && s.text !== common.text) card1.push(s);
-  }
-  card1.push(common);
-
-  while (card2.length < 4) {
-    const s = allSymbols[Math.floor(Math.random() * allSymbols.length)];
-    if (!card2.some(item => item.text === s.text) && s.text !== common.text) card2.push(s);
-  }
-  card2.push(common);
-
-  // Shuffle
-  card1.sort(() => Math.random() - 0.5);
-  card2.sort(() => Math.random() - 0.5);
-
-  return [card1, card2, common];
-}
-
-//new function
+// Generate cards ensuring only one common symbol
 function generateCards() {
   const card1 = [];
   const card2 = [];
@@ -203,9 +180,6 @@ function generateCards() {
 
   return [card1, card2, common];
 }
-
-
-
 
 function renderCard(cardElement, cardData) {
   cardElement.innerHTML = '';
